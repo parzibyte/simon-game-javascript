@@ -24,6 +24,18 @@
     const radioCuarto = 170;
     const radioCirculoCentral = 80;
     const distancia = 10;
+    const gamma = 4;
+
+    const verde = d3.color("#1B5E20"),
+        rojo = d3.color("#B71C1C"),
+        amarillo = d3.color("#F9A825"),
+        azul = d3.color("#0D47A1"),
+        negro=d3.color("#212121");
+
+    const verdeBrillante = verde.brighter(gamma),
+        rojoBrillante = rojo.brighter(gamma),
+        amarilloBrillante = amarillo.brighter(gamma),
+        azulBrillante = azul.brighter(gamma);
 
 
     const circuloFondo = d3.arc()
@@ -47,7 +59,7 @@
         .attr("transform", `translate(${centroX},${centroY})`)
         .append("path")
         .attr("d", circuloFondo)
-        .attr("fill", "black");
+        .attr("fill", negro);
 
 
     const superiorIzquierda = $svg.append("g")
@@ -61,7 +73,7 @@
                 .startAngle(partidoEn16 * 12)
                 .endAngle(partidoEn16 * 16)
         )
-        .attr("fill", "blue");
+        .attr("fill", verde);
 
 
     const superiorDerecha = $svg.append("g")
@@ -75,7 +87,8 @@
                 .startAngle(0)
                 .endAngle(partidoEn16 * 4)
         )
-        .attr("fill", "red");
+        .attr("fill", rojo);
+superiorDerecha.attr("fill", rojoBrillante)
     const inferiorIzquierda = $svg.append("g")
         .attr("transform", `translate(${centroX - distancia},${centroY + distancia})`)
         .attr("class", "boton")
@@ -87,7 +100,7 @@
                 .startAngle(partidoEn16 * 8)
                 .endAngle(partidoEn16 * 12)
         )
-        .attr("fill", "yellow");
+        .attr("fill", amarillo);
 
     const inferiorDerecha = $svg.append("g")
         .attr("transform", `translate(${centroX + distancia},${centroY + distancia})`)
@@ -100,14 +113,14 @@
                 .startAngle(partidoEn16 * 4)
                 .endAngle(partidoEn16 * 8)
         )
-        .attr("fill", "blue");
+        .attr("fill", azul);
 
     // Encima de los otros círculos, el círculo central
     $svg.append("g")
         .attr("transform", `translate(${centroX},${centroY})`)
         .append("path")
         .attr("d", circuloCentral)
-        .attr("fill", "black");
+        .attr("fill", negro);
 
 </script>
 
