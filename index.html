@@ -26,7 +26,9 @@
     const radioCirculoCentral = 80;
     const distancia = 10;
     const gamma = 2;
-    const milisegundos = 500;
+    const milisegundosCpu = 200,
+        milisegundosUsuario = 200;
+
 
     const verde = d3.color("#1B5E20"),
         rojo = d3.color("#B71C1C"),
@@ -118,17 +120,69 @@
         .attr("d", circuloCentral)
         .attr("fill", negro);
 
-    const secuencia = [superiorIzquierda, superiorDerecha, superiorIzquierda, inferiorIzquierda, inferiorDerecha, superiorIzquierda, superiorDerecha, superiorIzquierda, inferiorDerecha];
+    const encenderYApagarBoton = async (boton, duracion) => {
+        puedeJugar = false;
+        const colorActual = boton.attr("fill");
+        boton.attr("fill", d3.color(colorActual).brighter(gamma))
+        await sleep(duracion);
+        boton.attr("fill", d3.color(colorActual));
+        await sleep(duracion);
+        puedeJugar = true;
+    };
     const reproducirSecuencia = async secuencia => {
         for (const boton of secuencia) {
-            const colorActual = boton.attr("fill");
-            boton.attr("fill", d3.color(colorActual).brighter(gamma))
-            await sleep(milisegundos);
-            boton.attr("fill", d3.color(colorActual));
-            await sleep(milisegundos);
+            await encenderYApagarBoton(boton, milisegundosCpu);
         }
     };
-    reproducirSecuencia(secuencia);
+    const botones = [superiorIzquierda, superiorDerecha, inferiorIzquierda, inferiorDerecha];
+    const aleatorioDeArreglo = arreglo => arreglo[Math.floor(Math.random() * arreglo.length)];
+    const agregarBotonAleatorioASecuencia = secuencia => secuencia.push(aleatorioDeArreglo(botones));
+    const comparar = (secuenciaOriginal, botonDeUsuario, indice) => {
+        const colorOriginal = secuenciaOriginal[indice].attr("fill");
+        const colorCopia = botonDeUsuario.attr("fill");
+        return colorOriginal === colorCopia;
+    };
+
+    /*
+    *
+    * Comienza el juego
+    *
+    *
+    *
+    * */
+    let puedeJugar = false;
+    let contador = 0;
+    const secuencia = [];
+    botones.forEach(boton => {
+        boton.on("click", async () => {
+            if (!puedeJugar) {
+                console.log("No puedes jugar ._.");
+                return;
+            }
+            puedeJugar = false;
+            const ok = comparar(secuencia, boton, contador);
+            if (ok) {
+                await encenderYApagarBoton(boton, milisegundosUsuario);
+                if (contador >= secuencia.length - 1) {
+                    await sleep(milisegundosCpu);
+                    await turnoDelCpu();
+                } else {
+                    contador++;
+                }
+                puedeJugar = true;
+            } else {
+                alert("Perdiste")
+            }
+        });
+    });
+    const turnoDelCpu = async () => {
+        puedeJugar = false;
+        agregarBotonAleatorioASecuencia(secuencia);
+        await reproducirSecuencia(secuencia);
+        contador = 0;
+        puedeJugar = true;
+    }
+    turnoDelCpu();
 
 
 </script>
