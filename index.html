@@ -4,18 +4,53 @@
 <head>
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Document</title>
+    <title>Simon says - By parzibyte</title>
     <script src="d3.min.js"></script>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
     <style>
         .boton {
             cursor: pointer;
+        }
+
+        body {
+            padding-bottom: 70px;
+            padding-top: 70px;
         }
     </style>
 </head>
 
 <body>
-<button id="comenzar">Comenzar juego</button>
-<div id="arc-1"></div>
+<nav class="navbar navbar-expand-md navbar-dark bg-success fixed-top">
+    <a class="navbar-brand" target="_blank" href="//parzibyte.me/blog">Simon says - By Parzibyte</a>
+    <div class="collapse navbar-collapse" id="menu">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="//parzibyte.me/blog">Support & help&nbsp;<i
+                        class="fa fa-hands-helping"></i></a>
+            </li>
+        </ul>
+    </div>
+</nav>
+<main class="container-fluid">
+    <div class="row text-center">
+        <div class="col-12">
+            <h1>Simon says - By Parzibyte</h1>
+        </div>
+        <div class="col-12 table-responsive">
+            <button id="comenzar" class="mb-2 btn btn-success">Comenzar juego</button>
+            <div id="contenedorJuego"></div>
+        </div>
+    </div>
+</main>
+<footer class="px-2 py-2 fixed-bottom bg-dark">
+        <span class="text-muted">Simon says game. Written by
+            <a class="text-white" href="//parzibyte.me/blog">Parzibyte</a>
+            &nbsp;|&nbsp;
+            <a target="_blank" class="text-white" href="//github.com/parzibyte/simon-game-javascript">
+                View source
+            </a>
+        </span>
+</footer>
 
 <script>
     const juego = () => {
@@ -67,10 +102,10 @@
             .startAngle(0)
             .endAngle(Math.PI * 2);
 
-        const $svg = d3.select("#arc-1")
+        const $svg = d3.select("#contenedorJuego")
             .append("svg")
-            .attr('width', 2500)
-            .attr('height', 2500);
+            .attr('width', 400)
+            .attr('height', 400);
 
         $svg.append("g")
             .attr("transform", `translate(${centroX},${centroY})`)
