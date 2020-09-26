@@ -14,7 +14,7 @@
 </head>
 
 <body>
-<button id="comenzar">Comenzar</button>
+<button id="comenzar">Comenzar juego</button>
 <div id="arc-1"></div>
 
 <script>
@@ -43,6 +43,10 @@
             sonidoInferiorIzquierda = cargarSonido("3.mp3"),
             sonidoInferiorDerecha = cargarSonido("4.mp3");
 
+        let puedeJugar = false;
+        let contador = 0;
+        let puntaje = 0;
+        let secuencia = [];
 
         const verde = d3.color("#1B5E20"),
             rojo = d3.color("#B71C1C"),
@@ -134,6 +138,15 @@
             .attr("d", circuloCentral)
             .attr("fill", negro);
 
+        const textoPuntaje = $svg.append("text")
+            .attr("transform", `translate(${centroX},${centroY})`)
+            .attr("fill", "#ffffff")
+            .attr("font-size", 30)
+            .attr("font-weight", "bold")
+            .attr("font-family", "Courier")
+            .style("text-anchor", "middle")
+            .style("dominant-baseline", "central")
+            .text("0")
         const encenderYApagarBoton = async (boton, duracion) => {
             puedeJugar = false;
             const colorActual = boton.attr("fill");
@@ -170,17 +183,14 @@
         const compararSecuenciaDeUsuarioConOriginal = (secuenciaOriginal, botonDeUsuario, indice) => {
             return compararBotones(secuenciaOriginal[indice], botonDeUsuario);
         };
+        const refrescarPuntaje = puntaje => textoPuntaje.text(puntaje.toString());
+        const reiniciar = () => {
+            secuencia = [];
+            puedeJugar = false;
+            contador = puntaje = 0;
+            refrescarPuntaje(puntaje);
+        }
 
-        /*
-        *
-        * Comienza el juego
-        *
-        *
-        *
-        * */
-        let puedeJugar = false;
-        let contador = 0;
-        const secuencia = [];
         botones.forEach(boton => {
             boton.on("click", async () => {
                 if (!puedeJugar) {
@@ -192,6 +202,8 @@
                 if (ok) {
                     await encenderYApagarBoton(boton, milisegundosUsuario);
                     if (contador >= secuencia.length - 1) {
+                        puntaje++;
+                        refrescarPuntaje(puntaje);
                         await sleep(500);
                         await turnoDelCpu();
                     } else {
@@ -199,10 +211,13 @@
                     }
                     puedeJugar = true;
                 } else {
+
+                    $btnComenzar.disabled = false;
                     alert("Perdiste")
                 }
             });
         });
+
         const turnoDelCpu = async () => {
             puedeJugar = false;
             agregarBotonAleatorioASecuencia(secuencia);
@@ -210,10 +225,16 @@
             contador = 0;
             puedeJugar = true;
         }
-        turnoDelCpu();
-    }
 
-    document.querySelector("#comenzar").addEventListener("click", juego);
+        const $btnComenzar = document.querySelector("#comenzar");
+        $btnComenzar.addEventListener("click", () => {
+            $btnComenzar.disabled = true;
+            reiniciar();
+            turnoDelCpu();
+        });
+    }
+    juego();
+
 
 </script>
 
