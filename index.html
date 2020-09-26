@@ -2,119 +2,114 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Document</title>
-  <script src="d3.min.js"></script>
-  <style>
-    .boton {
-      cursor: pointer;
-    }
-  </style>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Document</title>
+    <script src="d3.min.js"></script>
+    <style>
+        .boton {
+            cursor: pointer;
+        }
+    </style>
 </head>
 
 <body>
 
-  <div id="arc-1"></div>
+<div id="arc-1"></div>
 
-  <script>
-    const partidoEn10 = (Math.PI * 2) / 16;
+<script>
+    const partidoEn16 = (Math.PI * 2) / 16;
     const centroX = 200, centroY = 200;
     const radioCirculo = 200;
-    const radioCuarto =170;
+    const radioCuarto = 170;
     const radioCirculoCentral = 80;
     const distancia = 10;
-    var arco_d = d3.arc()
-      .innerRadius(0)
-      .outerRadius(radioCuarto)
-      .startAngle(partidoEn10 * 12)
-      .endAngle(partidoEn10 * 16);
 
 
+    const circuloFondo = d3.arc()
+        .innerRadius(0)
+        .outerRadius(radioCirculo)
+        .startAngle(0)
+        .endAngle(Math.PI * 2);
+
+    const circuloCentral = d3.arc()
+        .innerRadius(0)
+        .outerRadius(radioCirculoCentral)
+        .startAngle(0)
+        .endAngle(Math.PI * 2);
+
+    const $svg = d3.select("#arc-1")
+        .append("svg")
+        .attr('width', 2500)
+        .attr('height', 2500);
+
+    $svg.append("g")
+        .attr("transform", `translate(${centroX},${centroY})`)
+        .append("path")
+        .attr("d", circuloFondo)
+        .attr("fill", "black");
 
 
-    var circulo = d3.arc()
-      .innerRadius(0)
-      .outerRadius(radioCirculo)
-      .startAngle(0)
-      .endAngle(Math.PI * 2);
-
-    var circuloCentral = d3.arc()
-      .innerRadius(0)
-      .outerRadius(radioCirculoCentral)
-      .startAngle(0)
-      .endAngle(Math.PI * 2);
-
-    var x = d3.select("#arc-1")
-      .append("svg")
-      .attr('width', 2500)
-      .attr('height', 2500);
-
-    x.append("g")
-      .attr("transform", `translate(${centroX},${centroY})`)
-      .append("path")
-      .attr("d", circulo)
-      .attr("fill", "black");
+    const superiorIzquierda = $svg.append("g")
+        .attr("transform", `translate(${centroX - distancia},${centroY - distancia})`)
+        .attr("class", "boton")
+        .append("path")
+        .attr("d",
+            d3.arc()
+                .innerRadius(0)
+                .outerRadius(radioCuarto)
+                .startAngle(partidoEn16 * 12)
+                .endAngle(partidoEn16 * 16)
+        )
+        .attr("fill", "blue");
 
 
+    const superiorDerecha = $svg.append("g")
+        .attr("transform", `translate(${centroX + distancia},${centroY - distancia})`)
+        .attr("class", "boton")
+        .append("path")
+        .attr("d",
+            d3.arc()
+                .innerRadius(0)
+                .outerRadius(radioCuarto)
+                .startAngle(0)
+                .endAngle(partidoEn16 * 4)
+        )
+        .attr("fill", "red");
+    const inferiorIzquierda = $svg.append("g")
+        .attr("transform", `translate(${centroX - distancia},${centroY + distancia})`)
+        .attr("class", "boton")
+        .append("path")
+        .attr("d",
+            d3.arc()
+                .innerRadius(0)
+                .outerRadius(radioCuarto)
+                .startAngle(partidoEn16 * 8)
+                .endAngle(partidoEn16 * 12)
+        )
+        .attr("fill", "yellow");
 
-    var xxxx = x.append("g")
-      .attr("transform", `translate(${centroX - distancia},${centroY - distancia})`)
-      .attr("class", "boton")
-      .append("path")
-      .attr("d", arco_d)
-      .attr("fill", "blue");
+    const inferiorDerecha = $svg.append("g")
+        .attr("transform", `translate(${centroX + distancia},${centroY + distancia})`)
+        .attr("class", "boton")
+        .append("path")
+        .attr("d",
+            d3.arc()
+                .innerRadius(0)
+                .outerRadius(radioCuarto)
+                .startAngle(partidoEn16 * 4)
+                .endAngle(partidoEn16 * 8)
+        )
+        .attr("fill", "blue");
 
-    // Prueba para modificar colores más tarde
-    xxxx.attr("fill", "green");
+    // Encima de los otros círculos, el círculo central
+    $svg.append("g")
+        .attr("transform", `translate(${centroX},${centroY})`)
+        .append("path")
+        .attr("d", circuloCentral)
+        .attr("fill", "black");
 
-
-    var superiorDerecha = x.append("g")
-      .attr("transform", `translate(${centroX + distancia},${centroY - distancia})`)
-      .attr("class", "boton")
-      .append("path")
-      .attr("d",
-        d3.arc()
-          .innerRadius(0)
-          .outerRadius(radioCuarto)
-          .startAngle(0)
-          .endAngle(partidoEn10 * 4)
-      )
-      .attr("fill", "red");
-    var inferiorIzquierda = x.append("g")
-      .attr("transform", `translate(${centroX - distancia},${centroY + distancia})`)
-      .attr("class", "boton")
-      .append("path")
-      .attr("d",
-        d3.arc()
-          .innerRadius(0)
-          .outerRadius(radioCuarto)
-          .startAngle(partidoEn10 * 8)
-          .endAngle(partidoEn10 * 12)
-      )
-      .attr("fill", "yellow");
-
-    var inferiorDerecha = x.append("g")
-      .attr("transform", `translate(${centroX + distancia},${centroY + distancia})`)
-      .attr("class", "boton")
-      .append("path")
-      .attr("d",
-        d3.arc()
-          .innerRadius(0)
-          .outerRadius(radioCuarto)
-          .startAngle(partidoEn10 * 4)
-          .endAngle(partidoEn10 * 8)
-      )
-      .attr("fill", "blue");
-
-    // Encima de todo, el círculo central
-    x.append("g")
-      .attr("transform", `translate(${centroX},${centroY})`)
-      .append("path")
-      .attr("d", circuloCentral)
-      .attr("fill", "black");
-
-  </script>
+</script>
 
 </body>
 
