@@ -5,7 +5,8 @@
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Simon says - By parzibyte</title>
-    <script src="d3.min.js"></script>
+    <script src="js/d3.min.js"></script>
+    <script src="js/sweetalert2.min.js"></script>
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <style>
         .boton {
@@ -248,7 +249,7 @@
                 } else {
 
                     $btnComenzar.disabled = false;
-                    alert("Perdiste")
+                    Swal.fire("Perdiste", `Has perdido. Tu puntuación fue de ${puntaje}. Puedes jugar de nuevo cuando quieras`);
                 }
             });
         });
@@ -268,8 +269,14 @@
             turnoDelCpu();
         });
     }
-    juego();
-
+    Swal.fire("Bienvenido", `Comienza a jugar, mira la secuencia e imítala (cuando hagas clic, espera a que el botón se apague para hacer el siguiente clic).
+<br>
+<br>
+    Ganas cuando se desborde la memoria del programa u ocurra un fallo, aunque probablemente pierdas antes de que eso ocurra.
+    <br>
+    <br>
+    <a href="//parzibyte.me/blog">Proudly brought to you by parzibyte</a>`)
+        .then(juego)
 
 </script>
 
