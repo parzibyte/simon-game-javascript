@@ -14,5 +14,10 @@ Para las alertas he usado  [SweetAlert 2](https://parzibyte.me/blog/2019/12/16/s
 En el blog de Parzibyte: https://parzibyte.me/blog/2020/09/29/simon-dice-javascript-juego/
 # Demo
 Aquí: https://parzibyte.github.io/simon-game-javascript/
+
+También en YouTube:
+
+https://www.youtube.com/watch?v=QjOX642YFhA
+
 # Créditos
 Sonidos recortados de [https://freesound.org/people/Timbre/sounds/188387/](https://freesound.org/people/Timbre/sounds/188387/) usando Audacity
